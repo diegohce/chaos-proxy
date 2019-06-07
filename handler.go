@@ -54,10 +54,14 @@ func errorHandler(w http.ResponseWriter, r *http.Request, e error) {
 			 return
 		 }
 		 conn.Close()
+		 log.Info().Println("Connection closed for", r.URL.String())
 
 	} else if e.Error() == "5xx" {
 		if s, ok := e.(random5xx); ok {
-			w.WriteHeader(s.status())
+			statusCode := s.status()
+			w.WriteHeader(statusCode)
+
+			log.Info().Println("Sending status", statusCode, "for", r.URL.String())
 		} else {
 			log.Error().Println("errorHandler: Cannot type-cast random5xx error")
 		}
@@ -84,10 +88,12 @@ func modifyResponse(res *http.Response) error {
 		}
 	case "DELAY":
 		if r, ok := dice.(delay); ok {
+			log.Info().Println("Will delay for", res.Request.URL.String())
 			r.wait()
 			return nil
 		}
 	}
+	log.Info().Println("Passing through for", res.Request.URL.String())
 	return nil
 }
 

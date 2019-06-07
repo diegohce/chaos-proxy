@@ -3,13 +3,13 @@
 		"host": "http://localhost:6666"
 	},
 	"paths": {
-		"/badservice/status/200": {
-			"host": "http://localhost:6666"
-		},
 		"/badservice/status/400": {
 			"host": "http://localhost:6666"
 		},
 		"/badservice/status/403": {
+			"host": "http://localhost:6666"
+		},
+		"/badservice/status/404": {
 			"host": "http://localhost:6666"
 		}
 	}
