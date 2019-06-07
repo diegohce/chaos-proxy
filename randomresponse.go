@@ -47,6 +47,20 @@ func (r noError) kind() string {
 }
 
 var randomErrors []randomError = []randomError{
+	noError{},
+	noError{},
+	noError{},
+	noError{},
+	noError{},
+	noError{},
+	noError{},
+	noError{},
+	noError{},
+	noError{},
+	noError{},
+	noError{},
+	noError{},
+	noError{},
 	random5xx{},
 	hangup{},
 	delay{},
