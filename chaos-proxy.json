@@ -11,6 +11,9 @@
 		},
 		"/badservice/status/404": {
 			"host": "http://localhost:6666"
+		},
+		"/data/2.5/": {
+			"host": "http://api.openweathermap.org:80"
 		}
 	}
 }
