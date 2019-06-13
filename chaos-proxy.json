@@ -1,4 +1,5 @@
 {
+	"max_timeout": 5000,
 	"default_host": {
 		"host": "http://localhost:6666"
 	},

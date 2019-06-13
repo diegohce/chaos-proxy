@@ -28,15 +28,16 @@ func (r hangup) kind() string {
 	return "HUP"
 }
 
-type delay struct{}
+type delay struct {}
 
 func (r delay) kind() string {
 	return "DELAY"
 }
 
-func (r delay) wait() {
-	//d := time.Millisecond * time.Duration( rand.Intn(54000001) )
-	d := time.Millisecond * time.Duration( rand.Intn(600001) )
+func (r delay) wait(url string) {
+	//d := time.Millisecond * time.Duration( rand.Intn(600001) )
+	d := time.Millisecond * time.Duration( rand.Intn(chaosConfig.MaxTimeout + 1) )
+	log.Info().Println("Will delay", d, "for", url)
 	time.Sleep(d)
 }
 

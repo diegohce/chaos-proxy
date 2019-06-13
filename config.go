@@ -11,6 +11,7 @@ type hostConfig struct {
 }
 
 type proxyConfig struct {
+	MaxTimeout  int `json:"max_timeout"`
 	DefaultHost hostConfig `json:"default_host"`
 	Paths       map[string] hostConfig `json:"paths"`
 }
