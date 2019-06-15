@@ -17,6 +17,7 @@ func createProxies() *http.ServeMux {
 		url, err := url.Parse(hostconfig.Host)
 		if err != nil {
 			log.Error().Println(err, "parsing", hostconfig.Host)
+			continue
 		}
 
 		p := httputil.NewSingleHostReverseProxy(url)
@@ -64,10 +65,11 @@ func errorHandler(w http.ResponseWriter, r *http.Request, e error) {
 			log.Info().Println("Sending status", statusCode, "for", r.URL.String())
 		} else {
 			log.Error().Println("errorHandler: Cannot type-cast random5xx error")
+			w.WriteHeader(http.StatusBadGateway)
 		}
 
 	} else if e.Error() == "TIMEOUT" {
-		w.WriteHeader(504)
+		w.WriteHeader(http.StatusGatewayTimeout)
 
 	} else {
 		log.Error().Printf("http: proxy error: %v", e)
@@ -87,12 +89,14 @@ func modifyResponse(res *http.Response) error {
 		if s, ok := dice.(random5xx); ok {
 			return s
 		} else {
-			log.Error().Println("modifiyResponse: Cannot type-cast random5xx error")
+			log.Error().Println("modifyResponse: Cannot type-cast random5xx error")
 		}
 	case "DELAY":
 		if r, ok := dice.(delay); ok {
 			r.wait(res.Request.URL.String())
 			return fmt.Errorf("TIMEOUT")
+		} else {
+			log.Error().Println("modifyResponse: Cannot type-cast delay error")
 		}
 	}
 	log.Info().Println("Passing through for", res.Request.URL.String())

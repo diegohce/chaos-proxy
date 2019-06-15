@@ -15,7 +15,7 @@ func (r random5xx) kind() string {
 	return "5xx"
 }
 func (r random5xx) status() int {
-	return 500 + rand.Intn(5)
+	return 500 + rand.Intn(12)
 }
 
 func (r random5xx) Error() string {
@@ -35,7 +35,6 @@ func (r delay) kind() string {
 }
 
 func (r delay) wait(url string) {
-	//d := time.Millisecond * time.Duration( rand.Intn(600001) )
 	d := time.Millisecond * time.Duration( rand.Intn(chaosConfig.MaxTimeout + 1) )
 	log.Info().Println("Will delay", d, "for", url)
 	time.Sleep(d)

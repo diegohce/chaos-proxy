@@ -21,11 +21,14 @@ var (
 )
 
 func loadConfig() error {
+	var b   []byte
+	var err error
 
-	if b, err := ioutil.ReadFile("./chaos-proxy.json"); err != nil {
-		return err
-	} else {
-		log.Debug().Println("config content", string(b))
-		return json.Unmarshal(b, &chaosConfig)
+	if b, err = ioutil.ReadFile("/etc/chaos-proxy/chaos-proxy.json"); err != nil {
+		if b, err = ioutil.ReadFile("./chaos-proxy.json"); err != nil {
+			return err
+		}
 	}
+	log.Debug().Println("config content", string(b))
+	return json.Unmarshal(b, &chaosConfig)
 }
