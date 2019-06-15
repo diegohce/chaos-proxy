@@ -6,6 +6,7 @@ import (
 	"net/http/httptest"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/diegohce/logger"
 )
@@ -184,3 +185,13 @@ func TestModifyResponse(t *testing.T) {
 	}
 }
 
+func TestMyMainFunction(t *testing.T) {
+
+	go func() {
+		main()
+	}()
+	time.Sleep(time.Duration(5) * time.Second)
+
+	srv.Close()
+
+}

@@ -9,6 +9,7 @@ import (
 
 var (
 	log *logger.Logger
+	srv *http.Server
 )
 
 func main() {
@@ -28,6 +29,9 @@ func main() {
 
 	log.Info().Println("Starting chaos-proxy on", bindAddr)
 
-	log.Error().Fatal(http.ListenAndServe(bindAddr, proxies))
+	srv = &http.Server{Addr: bindAddr, Handler: proxies}
+
+	log.Error().Println(srv.ListenAndServe())
+	//log.Error().Fatal(http.ListenAndServe(bindAddr, proxies))
 }
 
