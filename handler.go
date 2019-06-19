@@ -41,21 +41,21 @@ func createProxies() *http.ServeMux {
 func errorHandler(w http.ResponseWriter, r *http.Request, e error) {
 
 	if e.Error() == "HUP" {
-		 hj, ok := w.(http.Hijacker)
-		 if !ok {
-			 log.Error().Println("Connection could not be hijacked")
-			 w.WriteHeader(400)
-			 return
-		 }
+		hj, ok := w.(http.Hijacker)
+		if !ok {
+			log.Error().Println("Connection could not be hijacked")
+			w.WriteHeader(400)
+			return
+		}
 
-		 conn, _, err := hj.Hijack()
-		 if err != nil {
-			 log.Error().Println("Error hijacking connection", err)
-			 w.WriteHeader(400)
-			 return
-		 }
-		 conn.Close()
-		 log.Info().Println("Connection closed for", r.URL.String())
+		conn, _, err := hj.Hijack()
+		if err != nil {
+			log.Error().Println("Error hijacking connection", err)
+			w.WriteHeader(400)
+			return
+		}
+		conn.Close()
+		log.Info().Println("Connection closed for", r.URL.String())
 
 	} else if e.Error() == "5xx" {
 		if s, ok := e.(random5xx); ok {
@@ -81,25 +81,24 @@ func modifyResponse(res *http.Response) error {
 
 	dice := rollDices()
 
-	switch(dice.kind()) {
+	switch dice.kind() {
 	case "HUP":
 		return fmt.Errorf("HUP")
 
 	case "5xx":
 		if s, ok := dice.(random5xx); ok {
 			return s
-		} else {
-			log.Error().Println("modifyResponse: Cannot type-cast random5xx error")
 		}
+		log.Error().Println("modifyResponse: Cannot type-cast random5xx error")
+
 	case "DELAY":
 		if r, ok := dice.(delay); ok {
 			r.wait(res.Request.URL.String())
 			return fmt.Errorf("TIMEOUT")
-		} else {
-			log.Error().Println("modifyResponse: Cannot type-cast delay error")
 		}
+		log.Error().Println("modifyResponse: Cannot type-cast delay error")
+
 	}
 	log.Info().Println("Passing through for", res.Request.URL.String())
 	return nil
 }
-

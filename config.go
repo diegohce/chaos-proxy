@@ -11,9 +11,9 @@ type hostConfig struct {
 }
 
 type proxyConfig struct {
-	MaxTimeout  int `json:"max_timeout"`
-	DefaultHost hostConfig `json:"default_host"`
-	Paths       map[string] hostConfig `json:"paths"`
+	MaxTimeout  int                   `json:"max_timeout"`
+	DefaultHost hostConfig            `json:"default_host"`
+	Paths       map[string]hostConfig `json:"paths"`
 }
 
 var (
@@ -21,7 +21,7 @@ var (
 )
 
 func loadConfig() error {
-	var b   []byte
+	var b []byte
 	var err error
 
 	if b, err = ioutil.ReadFile("/etc/chaos-proxy/chaos-proxy.json"); err != nil {

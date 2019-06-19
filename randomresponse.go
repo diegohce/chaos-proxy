@@ -9,7 +9,7 @@ type randomError interface {
 	kind() string
 }
 
-type random5xx struct {}
+type random5xx struct{}
 
 func (r random5xx) kind() string {
 	return "5xx"
@@ -28,25 +28,25 @@ func (r hangup) kind() string {
 	return "HUP"
 }
 
-type delay struct {}
+type delay struct{}
 
 func (r delay) kind() string {
 	return "DELAY"
 }
 
 func (r delay) wait(url string) {
-	d := time.Millisecond * time.Duration( rand.Intn(chaosConfig.MaxTimeout + 1) )
+	d := time.Millisecond * time.Duration(rand.Intn(chaosConfig.MaxTimeout+1))
 	log.Info().Println("Will delay", d, "for", url)
 	time.Sleep(d)
 }
 
-type noError struct {}
+type noError struct{}
 
 func (r noError) kind() string {
 	return "NOERR"
 }
 
-var randomErrors []randomError = []randomError{
+var randomErrors = []randomError{
 	noError{},
 	noError{},
 	noError{},
@@ -85,4 +85,3 @@ var randomErrors []randomError = []randomError{
 func rollDices() randomError {
 	return randomErrors[rand.Intn(len(randomErrors))]
 }
-

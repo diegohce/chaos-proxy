@@ -11,19 +11,18 @@ import (
 	"github.com/diegohce/logger"
 )
 
-
 func TestLoadConfig(t *testing.T) {
 
 	log = logger.New("testing-chaos-proxy::")
 
-	if err := loadConfig();  err != nil {
+	if err := loadConfig(); err != nil {
 		t.Error(err)
 	}
 
 	os.Rename("./chaos-proxy.json", "./chaos-proxy.json.testing")
 	defer os.Rename("./chaos-proxy.json.testing", "./chaos-proxy.json")
 
-	if err := loadConfig();  err == nil {
+	if err := loadConfig(); err == nil {
 		t.Error("Config file does not exist. No error. Want: error")
 	}
 
@@ -33,13 +32,13 @@ func TestCreateProxies(t *testing.T) {
 
 	log = logger.New("testing-chaos-proxy::")
 
-	if err := loadConfig();  err != nil {
+	if err := loadConfig(); err != nil {
 		t.Error(err)
 	}
 
-	 _ = createProxies()
+	_ = createProxies()
 
-	chaosConfig.Paths["/faulty/host"] = hostConfig{Host:"!#$%&/()="}
+	chaosConfig.Paths["/faulty/host"] = hostConfig{Host: "!#$%&/()="}
 
 	chaosConfig.DefaultHost.Host = "!#$%&/()="
 
@@ -136,7 +135,6 @@ func TestErrorhandler(t *testing.T) {
 		t.Error("Error is nil. Want \"EOF\"")
 	}
 }
-
 
 func TestModifyResponse(t *testing.T) {
 

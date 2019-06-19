@@ -34,4 +34,3 @@ func main() {
 	log.Error().Println(srv.ListenAndServe())
 	//log.Error().Fatal(http.ListenAndServe(bindAddr, proxies))
 }
-
