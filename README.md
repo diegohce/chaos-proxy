@@ -49,3 +49,9 @@ Default bind address and port: `0.0.0.0:6667`. It can be changed setting `CHAOSP
 	}
 }
 ```
+
+# Status
+
+Chaos-proxy is still in a very early stage. The "random error" generator is pretty lousy and there's code that can be improved for sure. But, as is, it works as intended.
+
+
