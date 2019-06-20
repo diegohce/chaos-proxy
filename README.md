@@ -24,7 +24,7 @@ Default bind address and port: `0.0.0.0:6667`. It can be changed setting `CHAOSP
 `chaos-proxy.json` can be placed into project directory or, preferably, in `/etc/chaos-proxy`
 
 * max_timeout: Sets the top boundary for random milliseconds to timeout the request.
-* default_host: Where every request that does not match one of `paths` will be routed.
+* default_host: Where every request that does not match one of `paths` will be routed to.
 * paths: Where to route specific requests. If path ends with `/` it's interpreted as "begins with".
 
 ```json
